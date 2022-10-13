@@ -88,53 +88,29 @@ function writeValues($spreadsheetId, $range)
         $service = new Google_Service_Sheets($client);
         try{
 
-        $values = [["",'Balance Sheet', ''],
-        ['', 'SIMIT QC SDN BHD',''],
-        ["Code", 'Accounts','Amount(MYR)'],
-        ["10-0000", '[Assets]',''],
-        ["11-0000", '[Current Assets]',''],
-        ["11-1000", 'Trade Debtors','10,955.00'],
-        ["11-3000", '[Cash and Banks]',''],
-        ["11-3001", 'Petty Cash','8,444.00'],
-        ["11-3011", 'Bank Account A','18,425.00'],
-        ["11-3012", 'UOB','1,810.00'],
-        ["12-190", 'RevPay','106.00'],
-        ["", 'Total[Cash and Banks]','28,785.00'],
-        ["", 'Total[Current Assets]','39,740.00'],
-        ["12-0000", '[Non-Current Assets]',''],
-        ["12-1000", '[Vehicle]',''],
-        ["", 'Total[Vehicle]','0.00'],
-        ["12-2000", '[Equipment]',''],
-        ["", 'Total[Equipment]','0.00'],
-        ["12-3000", '[Land and Building]',''],
-        ["", 'Total[Land and Building]','0.00'],
-        ["", 'Total[Non-Current Assets]','0.00'],
-        ["", 'Total[Assets]','39,740.00'],
-        ["", '',''],
-        ["", 'TOTAL ASSET','39,740.00'],
-        ["", '',''],
-        ["20-0000", '[Liabilities]',''],
-        ["21-0000", '[Current Liabilities]',''],
-        ["2-SST", 'Sales & Service Tax','200.00'],
-        ["21-1000", 'Trade Creditors','71,907.00'],
-        ["21-2000", 'Others Creditor','5,440.00'],
-        ["21-3000", 'Output Tax','6.00'],
-        ["21-4000", 'Prepayment From Debtor','825.00'],
-        ["", 'Total[Current Liabilities]','78,378.00'],
-        ["22-0000", '[Non-Current Liabilities]',''],
-        ["22-1000", '[Long Term Loan]',''],
-        ["", 'Total[Long Term Loan]','0.00'],
-        ["", 'Total[Non-Current Liabilities]','0.00'],
-        ["", 'Total[Liabilities]','78,378.00'],
-        ["30-0000", '[Equity]',''],
-        ["31-0000", '[Capitals]',''],
-        ["31-0001", 'Share Holder 1','1,000.00'],
-        ["", 'Total[Capitals]','1,000.00'],
-        ["31-1000", 'Dividend','20.00'],
-        ["33-0000", 'Current Year Earning','(48,811.00)'],
-        ["", 'Total[Equity]','(47,791.00)'],
-        ["", '',''],
-        ["", 'TOTAL LIABILITY & SHAREHOLDER EQUITY','30,587.00']];
+        $values = [["SIMIT QC SDN BHD HQ",'', ''],
+        ['', '','Trial Balance Till Date 13-10-2022','','',''],
+        ['Account Code', 'Account Name','Account Group','Account Type','Debit Amount(MYR)','Credit Amount(MYR)'],
+        ['11-1000', 'Trade Debtors','Assets','Debtors','10,955.00',''],
+        ['11-3001', 'Petty Cash','Assets','Cash','8,444.00',''],
+        ['11-3011', 'Bank Account A','Assets','Bank','18,425.00',''],
+        ['11-3012', 'UOB','Assets','Bank','1,810.00',''],
+        ['11-3013', 'MaePay','Assets','Bank','5,825.00',''],
+        ['11-3014', 'CIMB','Assets','Bank','3,000.00',''],
+        ['2-SST', 'Sales & Service Tax','Liabilities','Output Tax(SST)','','200.00'],
+        ['21-1000', 'Trade Creditors','Liabilities','Creditors','','71,907'],
+        ['21-2000', 'Others Creditors','Liabilities','Creditors','','5,440.00'],
+        ['21-3000', 'Output Tax','Liabilities','Output Tax','','6.00'],
+        ['21-4000', 'Prepayment From Debtor','Liabilities','Prepayment','','825.00'],
+        ['31-0001', 'Share Holder 1','Equity','Genera','','1,000.00'],
+        ['31-1000', 'Dividend','Equity','Dividend','','20.00'],
+        ['41-0000', 'Trade Sales','Sales','General','','5,100.00'],
+        ['42-0000', 'Service Sales','Sales','General','','6,280.00'],
+        ['51-0010', 'Purchases','COGS','General','61,191.00',''],
+        ['', 'Summary Total:','','','109,650.00','90,778.00'],
+        ['Generate Date: 13-10-2022 04:39:19', '','','','',''],
+        ];
+
 
         $body = new Google_Service_Sheets_ValueRange([
             'values' => $values
@@ -153,4 +129,4 @@ function writeValues($spreadsheetId, $range)
             echo 'Message: ' .$e->getMessage();
           }
     }
-    writeValues('1eTJJpYCMQq9EPmmcu4lf123KQfi_6QEhjfqScUBRfJ0', 'TSSheets!B2');
+    writeValues('1eTJJpYCMQq9EPmmcu4lf123KQfi_6QEhjfqScUBRfJ0', 'TSSheets!A1');
