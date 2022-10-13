@@ -91,10 +91,13 @@ try{
     if (empty($values)) {
         print "No data found.\n";
     } else {
-        print "Name,  Age,  From:\n";
+        // print "Name,  Age,  From:\n";
         foreach ($values as $row) {
             // Print columns 
-            printf("%s, %s, %s\n", $row[0], $row[1], $row[2]);
+            // printf("%s, %s, %s\n", $row[0], $row[1], $row[2]);
+            $myJSON = json_encode($row);
+            echo $myJSON;
+            echo"\n";
         }
     }
 }
