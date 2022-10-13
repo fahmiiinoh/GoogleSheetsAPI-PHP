@@ -92,7 +92,19 @@ function writeValues($spreadsheetId, $range)
         ["",'', '','','','','Debtor Knockoff Details Report Between 12-10-2022 To 12-10-2022','','','','','','','',''],
         ["Doc. No",'Ref. No', 'Doc. Date','Terms','Business Partner Code','Bussiness Partner Name','Currency','Amount(MYR)','Knock Off Amount','Knock Off Amount(Local)','Balance Amount','Balance Amount (Local)','Knock Off Document','Account Name','Item Name'],
         ["Bussiness Partner Name: Riot Vanguard Inc",'', '','','','','','','','','','','','',''],
-        ["RC 0001",'DKD001', '07-06-2022','','005','Riot Vanguard Inc','MYR','-106.00','-106','-106','0.00','0.00','SI 0001 | 106.00','Trade Debtors','Payment for SI 0001']];
+        ["RC 0001",'DKD001', '07-06-2022','','005','Riot Vanguard Inc','MYR','-106.00','-106','-106','0.00','0.00','SI 0001 | 106.00','Trade Debtors','Payment for SI 0001'],
+        ["SI 0001",'', '07-06-2022','','005','Riot Vanguard Inc','MYR','106.00','106','106','0.00','0.00','RC 0001 | 106.00','Trade Debtors',''],
+        ["",'', '','','','Riot Vanguard Inc Total:','','0.00','','','0.00','0.00','','',''],
+        ["",'', '','','','','','','','','','','','',''],
+        ["Bussiness Partner Name: Valve Inc",'', '','','','','','','','','','','','',''],
+        ["RC 0004",'DKD004', '08-06-2022','','001','Steam Inc','MYR','-250.00','-250','-250','0.00','0.00','SI 0004 | 250.00','UOB','Payment for SI 0004'],
+        ["SI 0004",'', '08-06-2022','','001','Steam Inc','MYR','250.00','250','250','0.00','0.00','RC 0004 | 250.00','UOB',''],
+        ["RC 0008",'DKD008', '10-06-2022','','001','Steam Inc','MYR','-1500.00','-1500','-1500','0.00','0.00','SI 0008 | 1500.00','UOB','Payment for SI 0008'],
+        ["SI 0008",'', '10-06-2022','','001','Steam Inc','MYR','1600.00','1600','1600','0.00','0.00','RC 0008 | 1600.00','UOB',''],
+        ["JE 0005",'', '09-06-2022','','001','Steam Inc','MYR','100.00','0','0','100.00','100.00','Prepayment From Debtor','UOB','Gain'],
+        ["JE 0006",'', '09-06-2022','','001','Steam Inc','MYR','50.00','0','0','50.00','50.00','Prepayment From Debtor','UOB','Gain'],
+        ["",'', '','','','Steam Inc Total:','','250.00','','','150.00','150.00','','','']
+        ];
 
 
         $body = new Google_Service_Sheets_ValueRange([
