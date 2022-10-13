@@ -1,10 +1,11 @@
+# GoogleSheetsAPI-PHP
 # This is new Development Task
 
 This task is to enhance knowledge and skills more to PHP language.
 
 # Google Sheets API Quickstart PHP
 
-Complete the steps described in the [Google Sheets PHP Quickstart](https://developers.google.com/sheets/api/quickstart/php), and in about five minutes you'll have a simple PHP command-line application that makes requests to the Google Sheets API.
+Complete the steps described, and in about five minutes you'll have a simple PHP command-line application that makes requests to the Google Sheets API.
 
 ## Set up
 
@@ -36,4 +37,4 @@ composer install
 ```sh
 php getsheets.php
 ```
-# GoogleSheetsAPI-PHP
+
