@@ -22,6 +22,7 @@ if (php_sapi_name() != 'cli') {
 }
 
 use Google\Client;
+use Google\Service\Sheets\ValueRange;
 
 /**
  * Returns an authorized API client.
@@ -30,7 +31,7 @@ use Google\Client;
 function getClient()
 {
     $client = new Google\Client();
-    $client->setApplicationName('Google Sheets API PHP Quickstart');
+    $client->setApplicationName('Google Sheets API PHP Tester');
     $client->setScopes('https://www.googleapis.com/auth/spreadsheets');
     $client->setAuthConfig('credentials.json');
     $client->setAccessType('offline');
@@ -76,30 +77,61 @@ function getClient()
     return $client;
 }
 
+function create($title)
+{   
+    $client = getClient();
+    $service = new Google_Service_Sheets($client);
+    try{
 
-// Get the API client and construct the service object.
-$client = getClient();
-$service = new Google\Service\Sheets($client);
-
-try{
-
-    $spreadsheetId = '1qnET2AfSRxavwNbOdN-O0Trz0LNVaDMIgeXf2NT_iKw';
-    $range = 'D1:F8';
-    $response = $service->spreadsheets_values->get($spreadsheetId, $range);
-    $values = $response->getValues();
-
-    if (empty($values)) {
-        print "No data found.\n";
-    } else {
-        print "Name,  Age,  From:\n";
-        foreach ($values as $row) {
-            // Print columns 
-            printf("%s, %s, %s\n", $row[0], $row[1], $row[2]);
-        }
+        $spreadsheet = new Google_Service_Sheets_Spreadsheet([
+            'properties' => [
+                'title' => $title
+                ]
+            ]);
+            $spreadsheet = $service->spreadsheets->create($spreadsheet, [
+                'fields' => 'spreadsheetId'
+            ]);
+            printf("Spreadsheet ID: %s\n", $spreadsheet->spreadsheetId);
+            return $spreadsheet->spreadsheetId;
     }
+    catch(Exception $e) {
+        // TODO(developer) - handle error appropriately
+        echo 'Message: ' .$e->getMessage();
+      }
 }
-catch(Exception $e) {
-    // TODO(developer) - handle error appropriately
-    echo 'Message: ' .$e->getMessage();
-}
-// [END sheets_quickstart]
+
+/**
+ * Create a blank google sheet spreadsheet with a particular title.
+ */
+create('GSAPI Create Test');
+
+function updateValues($spreadsheetId, $range)
+    {
+        /* Load pre-authorized user credentials from the environment.
+           TODO(developer) - See https://developers.google.com/identity for
+            guides on implementing OAuth2 for your application. */
+        $client = getClient();
+        $service = new Google_Service_Sheets($client);
+        try{
+
+        $values = [["Branch Code", 'Bussiness Partner Code','Bussiness Partner Name','Group Name', 'Sales Agent Name', 'Currency','Net Amount',],
+        ["HQ", 'BP001','Twitch Inc.','Customer', 'Brian', 'MYR','232.00',],["", '',' ','', '', 'Summary total:','232.00',]];
+
+        $body = new Google_Service_Sheets_ValueRange([
+            'values' => $values
+        ]);
+        $params = [
+            'valueInputOption' => 'USER_ENTERED'
+        ];
+        //executing the request
+        $result = $service->spreadsheets_values->update($spreadsheetId, $range,
+        $body, $params);
+        printf("%d cells updated.", $result->getUpdatedCells());
+        return $result->getUpdatedCells();
+    }
+    catch(Exception $e) {
+            // TODO(developer) - handle error appropriately
+            echo 'Message: ' .$e->getMessage();
+          }
+    }
+    updateValues('%s', 'A2');

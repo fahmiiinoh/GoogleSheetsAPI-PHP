@@ -22,6 +22,7 @@ if (php_sapi_name() != 'cli') {
 }
 
 use Google\Client;
+use Google\Service\Sheets\ValueRange;
 
 /**
  * Returns an authorized API client.
@@ -76,34 +77,34 @@ function getClient()
     return $client;
 }
 
-function appendValues($spreadsheetId, $range, $valueInputOption)
-{
-    /* Load pre-authorized user credentials from the environment.
-       TODO(developer) - See https://developers.google.com/identity for
-        guides on implementing OAuth2 for your application. */
-    $client = new Google\Client();
-    $client->useApplicationDefaultCredentials();
-    $client->addScope('https://www.googleapis.com/auth/spreadsheets');
-    $service = new Google\Service\Sheets($client);
-    try {
-        $values = ["Hello","There","This","Is","New"]; //add the values to be appended
-        //execute the request
+
+function writeValues($spreadsheetId, $range)
+    {
+        /* Load pre-authorized user credentials from the environment.
+           TODO(developer) - See https://developers.google.com/identity for
+            guides on implementing OAuth2 for your application. */
+        $client = getClient();
+        $service = new Google_Service_Sheets($client);
+        try{
+
+        $values = [["Branch Code", 'Bussiness Partner Code','Bussiness Partner Name','Group Name', 'Sales Agent Name', 'Currency','Net Amount',],
+        ["HQ", 'BP001','Twitch Inc.','Customer', 'Brian', 'MYR','232.00',],["", '',' ','', '', 'Summary total:','232.00',]];
+
         $body = new Google_Service_Sheets_ValueRange([
             'values' => $values
         ]);
         $params = [
-            'valueInputOption' => 'RAW'
+            'valueInputOption' => 'USER_ENTERED'
         ];
-
-        $result = $service->spreadsheets_values->append($spreadsheetId, $range, $body, $params);
-        printf("%d cells appended.", $result->getUpdates()->getUpdatedCells());
-        return $result;
-    } catch (Exception $e) {
-        // TODO(developer) - handle error appropriately
-        echo 'Message: ' . $e->getMessage();
+        //executing the request
+        $result = $service->spreadsheets_values->update($spreadsheetId, $range,
+        $body, $params);
+        printf("%d cells updated.\n", $result->getUpdatedCells());
+        return $result->getUpdatedCells();
     }
-    // [END sheets_append_values]
-}
-
-require 'vendor/autoload.php';
-appendValues('1AIIe6rTEa6-PnuuicEn4a35kVSXW6eQfKioE_ZG_HCA', 'A1:B2', "RAW");
+    catch(Exception $e) {
+            // TODO(developer) - handle error appropriately
+            echo 'Message: ' .$e->getMessage();
+          }
+    }
+    writeValues('1eTJJpYCMQq9EPmmcu4lf123KQfi_6QEhjfqScUBRfJ0', 'A2');
