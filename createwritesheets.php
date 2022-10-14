@@ -23,6 +23,8 @@ if (php_sapi_name() != 'cli') {
 
 use Google\Client;
 use Google\Service\Sheets\ValueRange;
+use Google\Service\Sheets\BatchUpdateSpreadsheetRequest;
+use Google\Service\Sheets\FindReplaceResponse;
 
 /**
  * Returns an authorized API client.
@@ -77,61 +79,70 @@ function getClient()
     return $client;
 }
 
-function create($title)
-{   
-    $client = getClient();
-    $service = new Google_Service_Sheets($client);
-    try{
 
-        $spreadsheet = new Google_Service_Sheets_Spreadsheet([
-            'properties' => [
-                'title' => $title
-                ]
-            ]);
-            $spreadsheet = $service->spreadsheets->create($spreadsheet, [
-                'fields' => 'spreadsheetId'
-            ]);
-            printf("Spreadsheet ID: %s\n", $spreadsheet->spreadsheetId);
-            return $spreadsheet->spreadsheetId;
+
+
+/**
+ * to batch update a spreadsheet
+ */
+function batchUpdate($spreadsheetId, $sheetId, $range)
+    {   
+        $client = getClient(); // This is from your script.
+
+        // $spreadsheet_id = "1eTJJpYCMQq9EPmmcu4lf123KQfi_6QEhjfqScUBRfJ0"; // please set Spreadsheet ID.
+        //  $sheet_id = "635779689"; // please set Sheet ID.
+        $column_width1 = 500; // Please set the column width you want.
+        $column_width2 = 50;
+        $service = new Google_Service_Sheets($client);
+        try{
+        $requests = [
+            new \Google\Service\Sheets\Request([
+                "repeatCell" => [
+                    "range" => [
+                        "sheetId" => $sheetId,
+                        "startRowIndex" => 2,
+                        "endRowIndex" => 3,
+                    ],
+                    "cell" => [
+                        "userEnteredFormat" => ["horizontalAlignment" => "CENTER"],
+                    ],
+                    "fields" => "userEnteredFormat.horizontalAlignment",
+                ],
+            ]),
+
+            new \Google\Service\Sheets\Request([
+                "updateDimensionProperties" => [
+                    "range" => [
+                        "sheetId" => $sheetId,
+                        "startIndex" => 2,
+                        "endIndex" =>3,
+                        "dimension" => "COLUMNS",
+                    ],
+                    "properties" => ["pixelSize" => $column_width1],
+                    "fields" => "pixelSize",
+                ],
+            ]),
+            new \Google\Service\Sheets\Request([
+                "updateDimensionProperties" => [
+                    "range" => [
+                        "sheetId" => $sheetId,
+                        "startIndex" => 0,
+                        "endIndex" =>1,
+                        "dimension" => "COLUMNS",
+                    ],
+                    "properties" => ["pixelSize" => $column_width2],
+                    "fields" => "pixelSize",
+                ],
+            ]),
+        ];
+        $batchUpdate = new \Google\Service\Sheets\BatchUpdateSpreadsheetRequest(["requests" => $requests]);
+        $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdate);
+
+        return $service;
     }
     catch(Exception $e) {
         // TODO(developer) - handle error appropriately
         echo 'Message: ' .$e->getMessage();
-      }
+    }
 }
-
-/**
- * Create a blank google sheet spreadsheet with a particular title.
- */
-create('GSAPI Create Test');
-
-function updateValues($spreadsheetId, $range)
-    {
-        /* Load pre-authorized user credentials from the environment.
-           TODO(developer) - See https://developers.google.com/identity for
-            guides on implementing OAuth2 for your application. */
-        $client = getClient();
-        $service = new Google_Service_Sheets($client);
-        try{
-
-        $values = [["Branch Code", 'Bussiness Partner Code','Bussiness Partner Name','Group Name', 'Sales Agent Name', 'Currency','Net Amount',],
-        ["HQ", 'BP001','Twitch Inc.','Customer', 'Brian', 'MYR','232.00',],["", '',' ','', '', 'Summary total:','232.00',]];
-
-        $body = new Google_Service_Sheets_ValueRange([
-            'values' => $values
-        ]);
-        $params = [
-            'valueInputOption' => 'USER_ENTERED'
-        ];
-        //executing the request
-        $result = $service->spreadsheets_values->update($spreadsheetId, $range,
-        $body, $params);
-        printf("%d cells updated.", $result->getUpdatedCells());
-        return $result->getUpdatedCells();
-    }
-    catch(Exception $e) {
-            // TODO(developer) - handle error appropriately
-            echo 'Message: ' .$e->getMessage();
-          }
-    }
-    updateValues('%s', 'A2');
+batchUpdate('1eTJJpYCMQq9EPmmcu4lf123KQfi_6QEhjfqScUBRfJ0', '1053218568', 'ISSheets!A1');
