@@ -130,3 +130,120 @@ function writeValues($spreadsheetId, $range)
           }
     }
     writeValues('1eTJJpYCMQq9EPmmcu4lf123KQfi_6QEhjfqScUBRfJ0', 'TSSheets!A1');
+
+    function batchUpdate($spreadsheetId, $sheetId, $range)
+    {   
+        $client = getClient(); // This is from your script.
+
+        // $spreadsheet_id = "1eTJJpYCMQq9EPmmcu4lf123KQfi_6QEhjfqScUBRfJ0"; // please set Spreadsheet ID.
+        //  $sheet_id = "635779689"; // please set Sheet ID.
+        $column_width1 = 300; // Please set the column width you want.
+        $column_width2 = 150;
+        $service = new Google_Service_Sheets($client);
+        try{
+        $requests = [
+            new \Google\Service\Sheets\Request([
+                "repeatCell" => [
+                    "range" => [
+                        "sheetId" => $sheetId,
+                        "startRowIndex" => 1,
+                        "endRowIndex" => 3,
+                    ],
+                    "cell" => [
+                        "userEnteredFormat" => ["horizontalAlignment" => "CENTER"],
+                    ],
+                    "fields" => "userEnteredFormat.horizontalAlignment",
+                ],
+            ]),
+
+            new \Google\Service\Sheets\Request([
+                "repeatCell" => [
+                    "range" => [
+                        "sheetId" => $sheetId,
+                        "startColumnIndex" => 0,
+                        "endColumnIndex" => 1,
+                    ],
+                    "cell" => [
+                        "userEnteredFormat" => ["horizontalAlignment" => "LEFT"],
+                    ],
+                    "fields" => "userEnteredFormat.horizontalAlignment",
+                ],
+            ]),
+            
+            new \Google\Service\Sheets\Request([
+                "repeatCell" => [
+                    "range" => [
+                        "sheetId" => $sheetId,
+                        "startRowIndex" => 0,
+                        "endRowIndex" => 3,
+                    ],
+                    "cell" => [
+                        "userEnteredFormat" => [
+                            "textFormat" => [
+                                                // "fontSize" => 30,
+                                                "bold" => true,
+                                ],
+                        ]
+                    ],
+                    "fields" => "userEnteredFormat.textFormat.bold",
+                ],
+            ]),
+
+            new \Google\Service\Sheets\Request([
+                "repeatCell" => [
+                    "range" => [
+                        "sheetId" => $sheetId,
+                        "startRowIndex" => 1,
+                        "endRowIndex" => 3,
+                        "startColumnIndex"=> 0,
+                        "endColumnIndex"=> 6,
+                    ],
+                    "cell" => [
+                        "userEnteredFormat" => [
+                            "backgroundColor"=> [
+                                "red"=> 0.7,
+                                "green"=> 0.7,
+                                "blue"=> 0.7,
+                                ]
+                            ]
+                        ],
+                    "fields" => "userEnteredFormat.backgroundColor",
+                ],
+            ]),
+
+            new \Google\Service\Sheets\Request([
+                "updateDimensionProperties" => [
+                    "range" => [
+                        "sheetId" => $sheetId,
+                        "startIndex" => 1,
+                        "endIndex" =>2,
+                        "dimension" => "COLUMNS",
+                    ],
+                    "properties" => ["pixelSize" => $column_width1],
+                    "fields" => "pixelSize",
+                ],
+            ]),
+            new \Google\Service\Sheets\Request([
+                "updateDimensionProperties" => [
+                    "range" => [
+                        "sheetId" => $sheetId,
+                        "startIndex" => 2,
+                        "endIndex" =>6,
+                        "dimension" => "COLUMNS",
+                    ],
+                    "properties" => ["pixelSize" => $column_width2],
+                    "fields" => "pixelSize",
+                ],
+            ]),
+        ];
+        $batchUpdate = new \Google\Service\Sheets\BatchUpdateSpreadsheetRequest(["requests" => $requests]);
+        $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdate);
+
+        return $service;
+    }
+    catch(Exception $e) {
+        // TODO(developer) - handle error appropriately
+        echo 'Message: ' .$e->getMessage();
+    }
+}
+batchUpdate('1eTJJpYCMQq9EPmmcu4lf123KQfi_6QEhjfqScUBRfJ0', '1655762031', 'TSSheets!A1');
