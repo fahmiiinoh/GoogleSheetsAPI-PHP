@@ -88,7 +88,7 @@ function writeValues($spreadsheetId, $range)
         $service = new Google_Service_Sheets($client);
         try{
 
-        $values = [["SIMIT QC SDN BHD HQ",'', ''],
+        $values = [["FANS TECH SDN BHD",'', ''],
         ['', '','Trial Balance Till Date 13-10-2022','','',''],
         ['Account Code', 'Account Name','Account Group','Account Type','Debit Amount(MYR)','Credit Amount(MYR)'],
         ['11-1000', 'Trade Debtors','Assets','Debtors','10,955.00',''],

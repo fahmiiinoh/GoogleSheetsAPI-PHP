@@ -88,7 +88,7 @@ function writeValues($spreadsheetId, $range)
         $service = new Google_Service_Sheets($client);
         try{
 
-        $values = [["SIMIT QC SDN BHD HQ",'', '','','','','','','','','','','','',''],
+        $values = [["FANS TECH SDN BHD",'', '','','','','','','','','','','','',''],
         ["",'', '','','','','Sales History Between 11-10-2022 To 12-10-2022','','','','','','','',''],
         ["Branch Code",'Doc. Date', 'Doc Type','Doc. No','Ref. No','Terms Days','Bussiness Partner Name','Item Code','Item Name','Alternate Item Name','Quantity','U.O.M Code','Unit Price','Amount(MYR)','Sales Agent Name'],
         ["Doc. No : ARDN 0006",'', '','','','','','','','','','','','',''],

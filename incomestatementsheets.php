@@ -89,7 +89,7 @@ function writeValues($spreadsheetId, $range)
         try{
 
         $values = [["",'Income Statement', ''],
-        ['', 'SIMIT QC SDN BHD',''],
+        ['', 'FANS TECH SDN BHD',''],
         ["Code", 'Accounts','Amount(MYR)'],
         ["40-0000", '[Sales]',''],
         ["41-0000", 'Trade Sales','26,4400.00'],
