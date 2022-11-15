@@ -83,8 +83,8 @@ $service = new Google\Service\Sheets($client);
 
 try{
 
-    $spreadsheetId = '1qnET2AfSRxavwNbOdN-O0Trz0LNVaDMIgeXf2NT_iKw'; //SpreadsheetID
-    $range = 'D1:F8'; //Cell range
+    $spreadsheetId = ''; //SpreadsheetID
+    $range = ''; //Cell range
     $response = $service->spreadsheets_values->get($spreadsheetId, $range);
     $values = $response->getValues();
 

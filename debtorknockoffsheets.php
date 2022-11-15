@@ -88,7 +88,7 @@ function writeValues($spreadsheetId, $range)
         $service = new Google_Service_Sheets($client);
         try{
 
-        $values = [["SIMIT QC SDN BHD HQ",'', '','','','','','','','','','','','',''],
+        $values = [["FANS TECH SDN BHD",'', '','','','','','','','','','','','',''],
         ["",'', '','','','','Debtor Knockoff Details Report Between 12-10-2022 To 12-10-2022','','','','','','','',''],
         ["Doc. No",'Ref. No', 'Doc. Date','Terms','Business Partner Code','Bussiness Partner Name','Currency','Amount(MYR)','Knock Off Amount','Knock Off Amount(Local)','Balance Amount','Balance Amount (Local)','Knock Off Document','Account Name','Item Name'],
         ["Bussiness Partner Name: Riot Vanguard Inc",'', '','','','','','','','','','','','',''],

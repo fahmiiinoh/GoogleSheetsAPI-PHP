@@ -89,7 +89,7 @@ function writeValues($spreadsheetId, $range)
         try{
 
         $values = [["",'Balance Sheet', ''],
-        ['', 'SIMIT QC SDN BHD',''],
+        ['', 'FANS TECH SDN BHD',''],
         ["Code", 'Accounts','Amount(MYR)'],
         ["10-0000", '[Assets]',''],
         ["11-0000", '[Current Assets]',''],
