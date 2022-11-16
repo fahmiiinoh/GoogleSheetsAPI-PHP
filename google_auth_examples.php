@@ -1,6 +1,5 @@
 <?php
 
-
 require __DIR__ . '/vendor/autoload.php';
 
 use Google\Client;
@@ -24,39 +23,26 @@ function getClientAuth()
     // The cookie named google_auth_token stores the user's access and refresh tokens, and is
     // created automatically when the authorization flow completes for the first
     // time.
+
         if (isset($_COOKIE['google_auth_token'])) {
         $accessToken = json_decode($_COOKIE['google_auth_token'], true);
         $client->setAccessToken($accessToken);
     
+        } elseif (empty($_GET["code"])){
 
-
-    // If there is no previous token or it's expired.
-    if ($client->isAccessTokenExpired()) {
-        // Refresh the token if possible, else fetch a new one.
-        if ($client->getRefreshToken()) {
-            $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
-        } else {
-            // Request authorization from the user.
             $authUrl = $client->createAuthUrl();
             header('Location:'.$authUrl);
-            
+
+        } else {
             $authCode = $_GET["code"];
-
-            // if(isset($_GET["code"])){
             $accessToken = $client->fetchAccessTokenWithAuthCode($authCode);
-
-            // $client->setAccessToken($accessToken);
-
-
             $accessToken = $client->getAccessToken();
             
             $cookie_name = 'google_auth_token';
             $cookie_value = $accessToken;
-            setcookie($cookie_name,json_encode($cookie_value), time() + 3600, "/");
+            setcookie($cookie_name,json_encode($cookie_value), time() + 7200, "/");
             $accessToken = $_COOKIE['google_auth_token'];
-            // echo "<script>window.close();</script>";
              }   
+            echo "<script>window.close();</script>";
             return $client;
          }
-    }
-  }
