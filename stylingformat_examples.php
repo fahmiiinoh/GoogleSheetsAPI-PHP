@@ -11,12 +11,7 @@
 
     $sheet_id = "0";
 
-    $obj = [
-        "Doc. Date" => ["numberFormat" => ["type" => "DATE", "pattern" => "dd-mm-yyyy"]],
-        "Amount (MYR)" => ["numberFormat" => ["type" => "NUMBER", "pattern" => "#,##0.00"]],
-        "Quantity" => ["numberFormat" => ["type" => "NUMBER", "pattern" => "#,##0.0000"]],
-        "Unit Price" => ["numberFormat" => ["type" => "NUMBER", "pattern" => "#,##0.000000"]]
-    ];
+    $obj = $this->getDatatype();
 
     // Retrieve the header title.
     $retrieve = $this->service->spreadsheets_values->get($spreadsheetID, "'" . $sheet_name . "'!A3:3");
@@ -133,3 +128,15 @@
 
         return $this->service;
     }
+
+function getDatatype()
+{
+        //             //format type & pattern 
+    //             $obj = [
+   //                 // "" => ["numberFormat" => ["type" => "DATE", "pattern" => "dd-mm-yyyy"]],
+    //                 // "" => ["numberFormat" => ["type" => "NUMBER", "pattern" => "#,##0.00"]],
+    //                 // "" => ["numberFormat" => ["type" => "NUMBER", "pattern" => "#,##0.0000"]],
+    //                 // "" => ["numberFormat" => ["type" => "NUMBER", "pattern" => "#,##0.000000"]],
+    //             ];
+    //             return $obj;
+}
